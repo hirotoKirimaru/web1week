@@ -22,7 +22,7 @@ jobs:
         run: npm run build
       - name: Test
         working-directory: ./frontend
-        run: yarn test:unit:cov
+        run: yarn test:unit
       - name: deploy to Firebase Hosting
         working-directory: ./frontend
         run: |
