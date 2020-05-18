@@ -26,4 +26,4 @@ jobs:
       - name: deploy to Firebase Hosting
         working-directory: ./frontend
         run: |
-          yarn deploy --token=${{ secrets.FIREBASE_TOKEN }}
+          ./node_modules/.bin/firebase deploy --token=${{ secrets.FIREBASE_TOKEN }}
