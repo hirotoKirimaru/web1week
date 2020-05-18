@@ -1,0 +1,29 @@
+name: CI
+
+on: [push]
+
+jobs:
+  FrontDeploy:
+    name: FrontDeploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./frontend
+      - name: Build
+        working-directory: ./frontend
+        run: npm run build
+      - name: Test
+        working-directory: ./frontend
+        run: yarn test:unit:cov
+      - name: deploy to Firebase Hosting
+        working-directory: ./frontend
+        run: |
+          ./node_modules/.bin/firebase deploy --token=${{ secrets.FIREBASE_TOKEN }}
