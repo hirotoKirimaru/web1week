@@ -27,7 +27,7 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Performer extends Vue {
@@ -49,13 +49,13 @@ export default class Performer extends Vue {
     }
 
     onMouseDown(e: MouseEvent) {
-      console.log("mousedown");
+      console.log('mousedown');
       this.dragging = true;
       this.initialPosition = {
         x: e.pageX,
         y: e.pageY,
       };
-      console.log("mousedown end");
+      console.log('mousedown end');
     }
 
     onMouseMove(e: MouseEvent) {
@@ -63,7 +63,7 @@ export default class Performer extends Vue {
       e.preventDefault();
 
       if (!this.dragging) return;
-      console.log("move");
+      console.log('move');
 
       const delta = {
         x: e.pageX - this.initialPosition.x,
@@ -77,7 +77,7 @@ export default class Performer extends Vue {
     }
 
     onMouseup() {
-      console.log("mouseup");
+      console.log('mouseup');
       this.dragging = false;
     }
 }
