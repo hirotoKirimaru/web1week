@@ -6,41 +6,47 @@
     style="{
         position:absolute;
         display:inline-block;
-        backgroundColor:red
         }
     "
 
     :style="{
         width:dotSize + 'px',
         height:dotSize + 'px',
-        left:position.x + 'px',
-        top:position.y + 'px',
+        left:localPerformer.position.x + 'px',
+        top:localPerformer.position.y + 'px',
         }
     "
-
   >
-    きり丸
-
+    {{ localPerformer.shortName }}
   </div>
 </template>
 
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
   @Component
 export default class Performer extends Vue {
-  // @Prop()
-  // public initialX: number;
-  // @Prop()
-  // public initialY: number;
+  @Prop({
+    default: {
+      position: {
+        x: 0,
+        y: 0,
+      },
+      shortName: '',
+    },
+  })
+  private readonly performer: any;
 
-    private dotSize = 100;
+  @Prop({ default: 30 })
+  private readonly dotSize: any;
 
-    private position = {
-      x: 100,
-      y: 100,
-    }
+  private localPerformer: any;
+
+  created() {
+    this.localPerformer = this.performer;
+    this.$nextTick();
+  }
 
     private initialPosition = {
       x: 0,
@@ -56,14 +62,15 @@ export default class Performer extends Vue {
       };
       console.log(delta);
 
-      this.position = {
+      this.localPerformer.position = {
         x: this.initialPosition.x + delta.x,
         y: this.initialPosition.y + delta.y,
       };
-      console.log(this.position);
+      console.log(this.localPerformer.position);
     }
 
     handleMouseDown() {
+      console.log('handleMouseDown');
       const boundingRect = this.$el.getBoundingClientRect();
       console.log({ boundingRect });
 
