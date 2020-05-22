@@ -1,7 +1,6 @@
 <template>
   <div
     @mousedown="handleMouseDown"
-    @click="handleClick"
 
     class="v-color-picker__canvas-dot"
     style="{
@@ -64,19 +63,16 @@ export default class Performer extends Vue {
       console.log(this.position);
     }
 
-    handleClick() {
-      console.log('handleClick');
+    handleMouseDown() {
       const boundingRect = this.$el.getBoundingClientRect();
+      console.log({ boundingRect });
 
       this.initialPosition = {
         x: boundingRect.left - this.dotSize,
         y: boundingRect.top - this.dotSize,
       };
-      console.log(this.initialPosition);
-    }
 
-    handleMouseDown() {
-      console.log('handleMouceDown');
+      console.log({ initial: this.initialPosition });
 
       window.addEventListener('mousemove', this.onMouseMove);
       window.addEventListener('mouseup', this.handleMouseUp);
