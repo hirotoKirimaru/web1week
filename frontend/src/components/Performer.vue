@@ -1,12 +1,10 @@
 <template>
   <div
-    @mouseup="onMouseup"
-    @mousedown="onMouseDown"
-    @mousemove="onMouseMove"
+    @mousedown="handleMouseDown"
+    @click="handleClick"
 
+    class="v-color-picker__canvas-dot"
     style="{
-        width:100px;
-        height:100px;
         position:absolute;
         display:inline-block;
         backgroundColor:red
@@ -14,6 +12,8 @@
     "
 
     :style="{
+        width:dotSize + 'px',
+        height:dotSize + 'px',
         left:position.x + 'px',
         top:position.y + 'px',
         }
@@ -29,18 +29,18 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-@Component
+  @Component
 export default class Performer extends Vue {
   // @Prop()
   // public initialX: number;
   // @Prop()
   // public initialY: number;
 
-    private dragging = false;
+    private dotSize = 100;
 
     private position = {
       x: 100,
-      y: 200,
+      y: 100,
     }
 
     private initialPosition = {
@@ -48,37 +48,43 @@ export default class Performer extends Vue {
       y: 0,
     }
 
-    onMouseDown(e: MouseEvent) {
-      console.log('mousedown');
-      this.dragging = true;
-      this.initialPosition = {
-        x: e.pageX,
-        y: e.pageY,
-      };
-      console.log('mousedown end');
-    }
-
     onMouseMove(e: MouseEvent) {
-      // To prevent selection while moving cursor
-      e.preventDefault();
-
-      if (!this.dragging) return;
       console.log('move');
 
       const delta = {
         x: e.pageX - this.initialPosition.x,
         y: e.pageY - this.initialPosition.y,
       };
+      console.log(delta);
 
       this.position = {
         x: this.initialPosition.x + delta.x,
         y: this.initialPosition.y + delta.y,
       };
+      console.log(this.position);
     }
 
-    onMouseup() {
-      console.log('mouseup');
-      this.dragging = false;
+    handleClick() {
+      console.log('handleClick');
+      const boundingRect = this.$el.getBoundingClientRect();
+
+      this.initialPosition = {
+        x: boundingRect.left - this.dotSize,
+        y: boundingRect.top - this.dotSize,
+      };
+      console.log(this.initialPosition);
+    }
+
+    handleMouseDown() {
+      console.log('handleMouceDown');
+
+      window.addEventListener('mousemove', this.onMouseMove);
+      window.addEventListener('mouseup', this.handleMouseUp);
+    }
+
+    handleMouseUp() {
+      window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('mouseup', this.handleMouseUp);
     }
 }
 </script>
