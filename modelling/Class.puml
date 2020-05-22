@@ -1,0 +1,44 @@
+@startuml
+title 概念クラス図
+
+class Performer
+note left: 踊り子
+note top: 一番基本でめんどくさい概念。\nチームの所属\n踊れる曲\n参加するお祭り\nステージの大きさによっては人数制限もある。
+Team <--> "1..*" Performer
+
+
+class Team
+note left: チーム
+
+Music <--> "1..*" Performer
+
+
+class Music
+note left: 楽曲(参加年度)
+
+Fes <--> "1..*" Performer
+
+
+class Fes
+note left: お祭り
+
+
+Stage <--> "1..*" Performer
+
+
+class Stage {
+  type: | stage | parade |
+}
+note left: ステージ
+class Platoon {
+  order:number;
+}
+note left: 隊列
+
+Team <-->"1..*" Music
+Music <-->"1..*" Fes
+Fes <-->"1..*" Stage
+Stage <-->"1..*" Platoon
+
+
+@enduml
