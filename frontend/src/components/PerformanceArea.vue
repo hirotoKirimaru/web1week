@@ -1,10 +1,17 @@
 <template>
   <div>
-    <div v-for="performer in performerList" :key="performer.id">
-      <Performer
-        :performer="performer"
-      />
-    </div>
+    <v-row>
+      <div v-for="performer in performerList" :key="performer.id">
+        <Performer
+          :performer="performer"
+        />
+      </div>
+    </v-row>
+    <v-row>
+      <v-chip v-for="performer in performerList" :key="performer.id">
+        {{ performer.longName }}
+      </v-chip>
+    </v-row>
   </div>
 </template>
 
