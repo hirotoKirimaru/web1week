@@ -19,7 +19,7 @@
         bottom
         right
         color="purple darken-2"
-        @click.stop="dialog = true"
+        @click.stop="addModalPerformer"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
@@ -204,6 +204,10 @@ export default class HelloWorld extends Vue {
         return;
       }
       this.performerList = JSON.parse(item);
+    }
+
+    addModalPerformer(){
+      this.dialog = true;
     }
 
     addPerformer() {
