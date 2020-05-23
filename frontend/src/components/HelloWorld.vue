@@ -12,6 +12,19 @@
         />
       </v-col>
     </v-row>
+    <v-row>
+      <v-btn
+        dark
+        fab
+        bottom
+        right
+        color="purple darken-2"
+        @click="addPerformer"
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+
+    </v-row>
     <v-row class="text-center">
       <v-col xs="12">
         <PerformerList
@@ -72,5 +85,19 @@ export default class HelloWorld extends Vue {
         longName: 'ゴリラ',
       },
     ];
+
+    addPerformer() {
+      this.performerList.push(
+        {
+          id: 5,
+          position: {
+            x: 200,
+            y: 10,
+          },
+          shortName: '麒',
+          longName: 'キリン',
+        },
+      );
+    }
 }
 </script>
