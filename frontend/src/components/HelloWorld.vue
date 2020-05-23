@@ -85,6 +85,7 @@
       <v-col xs="12">
         <PerformerList
           :performerList="performerList"
+          @deletePerformer="deletePerformer"
         />
       </v-col>
     </v-row>
@@ -106,7 +107,7 @@ export default class HelloWorld extends Vue {
     private dialog = false;
 
     private tmpPerformer: Performer = {
-      id:0,
+      id: 0,
       position: {
         x: 0,
         y: 0,
@@ -157,9 +158,15 @@ export default class HelloWorld extends Vue {
     addPerformer() {
       this.dialog = false;
 
-      const tmp = Object.assign({}, this.tmpPerformer);
+      const tmp = { ...this.tmpPerformer };
 
       this.performerList.push(tmp);
+    }
+
+    deletePerformer(deletePerformer: Performer) {
+      const deleteIndex = this.performerList.findIndex((performer) => performer.id === deletePerformer.id, 0);
+
+      this.performerList.splice(deleteIndex, 1);
     }
 }
 </script>

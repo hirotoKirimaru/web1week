@@ -2,7 +2,11 @@
   <div>
     <v-row>
       <v-col xs="12">
-        <v-chip v-for="performer in performerList" :key="performer.id">
+        <v-chip
+          v-for="performer in performerList" :key="performer.id"
+          close
+          @click:close="emitClose(performer)"
+        >
           {{ performer.longName }}
         </v-chip>
       </v-col>
@@ -24,5 +28,10 @@ import Performer from '@/types/performer';
 export default class PerformerList extends Vue {
   @Prop()
   private performerList: Performer[] | undefined;
+
+  emitClose(performer: Performer) {
+    console.log(performer);
+    this.$emit('deletePerformer', performer);
+  }
 }
 </script>
