@@ -155,18 +155,28 @@ export default class HelloWorld extends Vue {
       },
     ];
 
+    mounted(){
+      const item : string | null = localStorage.getItem("performerList");
+      if (item == null){
+          return;
+      }
+      this.performerList = JSON.parse(item);
+    }
+
     addPerformer() {
       this.dialog = false;
 
       const tmp = { ...this.tmpPerformer };
 
       this.performerList.push(tmp);
+      localStorage.setItem('performerList', JSON.stringify(this.performerList));
     }
 
     deletePerformer(deletePerformer: Performer) {
       const deleteIndex = this.performerList.findIndex((performer) => performer.id === deletePerformer.id, 0);
 
       this.performerList.splice(deleteIndex, 1);
+      localStorage.setItem('performerList', JSON.stringify(this.performerList));
     }
 }
 </script>
