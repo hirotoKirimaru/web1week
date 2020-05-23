@@ -7,12 +7,16 @@
       }"
     >
       <v-col xs="12">
-        <PerformanceArea/>
+        <PerformanceArea
+          :performerList="performerList"
+        />
       </v-col>
     </v-row>
     <v-row class="text-center">
       <v-col xs="12">
-        <PerformerList/>
+        <PerformerList
+          :performerList="performerList"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -29,5 +33,43 @@ import { Component, Vue } from 'vue-property-decorator';
     },
   })
 export default class HelloWorld extends Vue {
+    private performerList = [
+      {
+        id: 1,
+        position: {
+          x: 100,
+          y: 100,
+        },
+        shortName: '桐',
+        longName: 'きり丸',
+      },
+      {
+        id: 2,
+        position: {
+          x: 200,
+          y: 100,
+        },
+        shortName: '無',
+        longName: 'ナイナイ',
+      },
+      {
+        id: 3,
+        position: {
+          x: 300,
+          y: 100,
+        },
+        shortName: '水',
+        longName: '水上',
+      },
+      {
+        id: 4,
+        position: {
+          x: 200,
+          y: 50,
+        },
+        shortName: 'ゴ',
+        longName: 'ゴリラ',
+      },
+    ];
 }
 </script>
