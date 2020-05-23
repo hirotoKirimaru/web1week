@@ -208,6 +208,13 @@ export default class HelloWorld extends Vue {
 
     addModalPerformer(){
       this.dialog = true;
+      if (this.performerList.length == 0){
+        this.tmpPerformer.id = 0;
+        return;
+      }
+
+      const num = this.performerList.reduce((a, b)=>a.id>b.id?a:b);
+      this.tmpPerformer.id = num.id + 1;
     }
 
     addPerformer() {
