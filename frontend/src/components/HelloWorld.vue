@@ -19,10 +19,66 @@
         bottom
         right
         color="purple darken-2"
-        @click="addPerformer"
+        @click.stop="dialog = true"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
+      <v-dialog
+        v-model="dialog"
+        max-width="500"
+      >
+        <v-card>
+          <v-card-title class="headline">踊り子を追加しますか？</v-card-title>
+
+          <v-text-field
+            v-model="tmpPerformer.id"
+            label="駒のID"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="tmpPerformer.position.x"
+            label="駒の位置(x)"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="tmpPerformer.position.y"
+            label="駒の位置(y)"
+            required
+          ></v-text-field>
+
+
+          <v-text-field
+            v-model="tmpPerformer.shortName"
+            :count="2"
+            label="踊り子の短縮名称(駒の表示に使用)"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="tmpPerformer.longName"
+            label="踊り子名"
+            required
+          ></v-text-field>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              @click="dialog = false"
+            >
+              破棄
+            </v-btn>
+
+            <v-btn
+              @click="addPerformer"
+            >
+              追加
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
     </v-row>
     <v-row class="text-center">
@@ -47,6 +103,18 @@ import Performer from '@/types/performer';
     },
   })
 export default class HelloWorld extends Vue {
+    private dialog = false;
+
+    private tmpPerformer: Performer = {
+      id:0,
+      position: {
+        x: 0,
+        y: 0,
+      },
+      shortName: '',
+      longName: '',
+    };
+
     private performerList: Performer[] = [
       {
         id: 1,
@@ -87,17 +155,11 @@ export default class HelloWorld extends Vue {
     ];
 
     addPerformer() {
-      this.performerList.push(
-        {
-          id: 5,
-          position: {
-            x: 200,
-            y: 10,
-          },
-          shortName: '麒',
-          longName: 'キリン',
-        },
-      );
+      this.dialog = false;
+
+      const tmp = Object.assign({}, this.tmpPerformer);
+
+      this.performerList.push(tmp);
     }
 }
 </script>
