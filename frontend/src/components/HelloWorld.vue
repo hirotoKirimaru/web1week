@@ -147,6 +147,7 @@ import Performer from '@/types/performer';
   })
 export default class HelloWorld extends Vue {
     private dialog = false;
+
     private selected = false;
 
     private tmpPerformer: Performer = {
@@ -206,14 +207,14 @@ export default class HelloWorld extends Vue {
       this.performerList = JSON.parse(item);
     }
 
-    addModalPerformer(){
+    addModalPerformer() {
       this.dialog = true;
-      if (this.performerList.length == 0){
+      if (this.performerList.length == 0) {
         this.tmpPerformer.id = 0;
         return;
       }
 
-      const num = this.performerList.reduce((a, b)=>a.id>b.id?a:b);
+      const num = this.performerList.reduce((a, b) => (a.id > b.id ? a : b));
       this.tmpPerformer.id = num.id + 1;
     }
 
@@ -228,7 +229,7 @@ export default class HelloWorld extends Vue {
 
     editPerformer(editPerformer: Performer) {
       this.selected = true;
-      const performer : Performer | undefined = this.performerList
+      const performer: Performer | undefined = this.performerList
         .find((performer) => performer.id === editPerformer.id, 0);
 
       if (performer == null) {
