@@ -2,11 +2,9 @@
   <div>
     <v-row>
       <v-col xs="12">
-        <div v-for="performer in performerList" :key="performer.id">
-          <Performer
-            :performer="performer"
-          />
-        </div>
+        <v-chip v-for="performer in performerList" :key="performer.id">
+          {{ performer.longName }}
+        </v-chip>
       </v-col>
     </v-row>
   </div>
@@ -22,7 +20,7 @@ import { Component } from 'vue-property-decorator';
     Performer: () => import('@/components/Performer.vue'),
   },
 })
-export default class PerformanceArea extends Vue {
+export default class PerformerList extends Vue {
   private performerList = [
     {
       id: 1,
