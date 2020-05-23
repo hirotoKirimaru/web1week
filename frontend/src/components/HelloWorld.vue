@@ -155,10 +155,10 @@ export default class HelloWorld extends Vue {
       },
     ];
 
-    mounted(){
-      const item : string | null = localStorage.getItem("performerList");
-      if (item == null){
-          return;
+    mounted() {
+      const item: string | null = localStorage.getItem('performerList');
+      if (item == null) {
+        return;
       }
       this.performerList = JSON.parse(item);
     }
