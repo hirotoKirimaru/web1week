@@ -85,8 +85,50 @@
       <v-col xs="12">
         <PerformerList
           :performerList="performerList"
+          @editPerformer="editPerformer"
           @deletePerformer="deletePerformer"
         />
+      </v-col>
+    </v-row>
+    <v-row class="text-center" v-if="selected">
+      <v-col xs="12">
+        <v-text-field
+          v-model="tmpPerformer.id"
+          label="駒のID"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="tmpPerformer.position.x"
+          label="駒の位置(x)"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="tmpPerformer.position.y"
+          label="駒の位置(y)"
+          required
+        ></v-text-field>
+
+
+        <v-text-field
+          v-model="tmpPerformer.shortName"
+          :count="2"
+          label="踊り子の短縮名称(駒の表示に使用)"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="tmpPerformer.longName"
+          label="踊り子名"
+          required
+        ></v-text-field>
+
+        <v-btn
+          @click="editCommitPerformer"
+        >
+          修正
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -105,6 +147,7 @@ import Performer from '@/types/performer';
   })
 export default class HelloWorld extends Vue {
     private dialog = false;
+    private selected = false;
 
     private tmpPerformer: Performer = {
       id: 0,
@@ -169,6 +212,24 @@ export default class HelloWorld extends Vue {
       const tmp = { ...this.tmpPerformer };
 
       this.performerList.push(tmp);
+      localStorage.setItem('performerList', JSON.stringify(this.performerList));
+    }
+
+    editPerformer(editPerformer: Performer) {
+      this.selected = true;
+      const performer : Performer | undefined = this.performerList
+        .find((performer) => performer.id === editPerformer.id, 0);
+
+      if (performer == null) {
+        console.debug('見つかりませんでした。');
+        return;
+      }
+
+      this.tmpPerformer = performer;
+    }
+
+    editCommitPerformer() {
+      this.selected = false;
       localStorage.setItem('performerList', JSON.stringify(this.performerList));
     }
 

@@ -5,6 +5,7 @@
         <v-chip
           v-for="performer in performerList" :key="performer.id"
           close
+          @click="emitEdit(performer)"
           @click:close="emitClose(performer)"
         >
           {{ performer.longName }}
@@ -29,8 +30,11 @@ export default class PerformerList extends Vue {
   @Prop()
   private performerList: Performer[] | undefined;
 
+  emitEdit(performer: Performer) {
+    this.$emit('editPerformer', performer);
+  }
+
   emitClose(performer: Performer) {
-    console.log(performer);
     this.$emit('deletePerformer', performer);
   }
 }
