@@ -174,7 +174,7 @@ export default class HelloWorld extends Vue {
 
     deletePerformer(deletePerformer: Performer) {
       const deleteIndex = this.performerList
-          .findIndex((performer) => performer.id === deletePerformer.id, 0);
+        .findIndex((performer) => performer.id === deletePerformer.id, 0);
 
       this.performerList.splice(deleteIndex, 1);
       localStorage.setItem('performerList', JSON.stringify(this.performerList));
