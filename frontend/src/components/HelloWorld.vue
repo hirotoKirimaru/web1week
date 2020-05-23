@@ -25,6 +25,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import Performer from '@/types/performer';
 
   @Component({
     components: {
@@ -33,7 +34,7 @@ import { Component, Vue } from 'vue-property-decorator';
     },
   })
 export default class HelloWorld extends Vue {
-    private performerList = [
+    private performerList: Performer[] = [
       {
         id: 1,
         position: {

@@ -14,6 +14,7 @@
 import Vue from 'vue';
 
 import { Component, Prop } from 'vue-property-decorator';
+import Performer from '@/types/performer';
 
 @Component({
   components: {
@@ -22,6 +23,6 @@ import { Component, Prop } from 'vue-property-decorator';
 })
 export default class PerformerList extends Vue {
   @Prop()
-  private performerList: any;
+  private performerList: Performer[] | undefined;
 }
 </script>

@@ -15,6 +15,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Prop, Component } from 'vue-property-decorator';
+import Performer from '@/types/performer';
 
 @Component({
   components: {
@@ -23,6 +24,6 @@ import { Prop, Component } from 'vue-property-decorator';
 })
 export default class PerformanceArea extends Vue {
   @Prop()
-  private performerList: any;
+  private performerList: Performer[] | undefined;
 }
 </script>
