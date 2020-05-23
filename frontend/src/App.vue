@@ -10,6 +10,7 @@
       </div>
 
       <v-spacer></v-spacer>
+      <Auth/>
     </v-app-bar>
 
     <v-content>
@@ -20,17 +21,14 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import { Component } from 'vue-property-decorator';
 
-export default Vue.extend({
-  name: 'App',
-
+@Component({
   components: {
-    HelloWorld,
+    HelloWorld: () => import('@/components/HelloWorld.vue'),
+    Auth: () => import('@/components/Auth.vue'),
   },
-
-  data: () => ({
-    //
-  }),
-});
+})
+export default class App extends Vue {
+}
 </script>
