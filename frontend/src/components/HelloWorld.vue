@@ -209,7 +209,7 @@ export default class HelloWorld extends Vue {
 
     addModalPerformer() {
       this.dialog = true;
-      if (this.performerList.length == 0) {
+      if (this.performerList.length === 0) {
         this.tmpPerformer.id = 0;
         return;
       }
@@ -229,15 +229,15 @@ export default class HelloWorld extends Vue {
 
     editPerformer(editPerformer: Performer) {
       this.selected = true;
-      const performer: Performer | undefined = this.performerList
+      const findPerformer: Performer | undefined = this.performerList
         .find((performer) => performer.id === editPerformer.id, 0);
 
-      if (performer == null) {
+      if (findPerformer === undefined) {
         console.debug('見つかりませんでした。');
         return;
       }
 
-      this.tmpPerformer = performer;
+      this.tmpPerformer = findPerformer;
     }
 
     editCommitPerformer() {
