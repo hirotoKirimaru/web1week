@@ -8,16 +8,7 @@
     >
       <v-col xs="12">
         <PerformanceArea
-          :performerList="[
-        {
-          id: 1,
-          position: {
-            x: 100,
-            y: 100,
-          },
-          shortName: '桐',
-          longName: 'きり丸',
-        }]"
+          :performerList="partPerformer()"
         />
       </v-col>
     </v-row>
@@ -145,16 +136,7 @@
     <v-row class="text-center">
       <v-col xs="12">
         <PerformerList
-          :performerList="[
-        {
-          id: 1,
-          position: {
-            x: 100,
-            y: 100,
-          },
-          shortName: '桐',
-          longName: 'きり丸',
-        }]"
+          :performerList="partPerformer()"
           @editPerformer="editPerformer"
           @deletePerformer="deletePerformer"
         />
@@ -324,13 +306,15 @@ export default class HelloWorld extends Vue {
       this.dialog = false;
 
       const tmp = { ...this.tmpPerformer };
+      console.debug(tmp);
+
       // const findPerformer: Performer[] | undefined =
       if (this.performerList.length > 0) {
         console.log('データあり');
-        this.performerList
-          .filter((index) => index.id === this.selectedPart)
-          .flatMap((part) => part.performer)
-          .push(tmp);
+        const parts: Part[] = this.performerList
+          .filter((index) => index.id === this.selectedPart);
+
+        parts[0].performer.push(tmp);
       } else {
         console.log('データなし');
         this.performerList = [{
@@ -372,6 +356,16 @@ export default class HelloWorld extends Vue {
 
       this.performerList.splice(deleteIndex, 1);
       localStorage.setItem('performerList', JSON.stringify(this.performerList));
+    }
+
+    partPerformer() {
+      const parts: Part[] = this.performerList
+        .filter((index) => index.id === this.selectedPart);
+
+      if (parts.length > 0) {
+        return parts[0].performer;
+      }
+      return null;
     }
 }
 </script>
