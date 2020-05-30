@@ -3,9 +3,9 @@ export interface Performer{
   position: Position;
   shortName: string;
   longName: string;
-};
+}
 
 interface Position {
   x: number;
   y: number;
-};
+}
