@@ -29,8 +29,8 @@
           :tick-labels="parts"
           :value="0"
           min="0"
-          max="3"
-          tick-size="4"
+          :max="parts.length -1"
+          :tick-size="parts.length"
         >
         </v-slider>
       </v-col>
