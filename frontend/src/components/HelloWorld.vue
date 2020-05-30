@@ -12,15 +12,38 @@
         />
       </v-col>
     </v-row>
-    <v-row>
+
+    <v-row class="ma-1">
+      <v-col sm="4">
+        <v-btn
+          dark
+          color="purple darken-2"
+          @click.stop="addModalPerformer"
+        >
+          次の隊列の追加
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-col>
+      <v-col sm="8">
+        <v-slider
+          :tick-labels="parts"
+          :value="0"
+          min="0"
+          max="3"
+          tick-size="4"
+        >
+        </v-slider>
+      </v-col>
+
+    </v-row>
+
+    <v-row class="ma-1">
       <v-btn
         dark
-        fab
-        bottom
-        right
         color="purple darken-2"
         @click.stop="addModalPerformer"
       >
+        踊り子の追加
         <v-icon>mdi-plus</v-icon>
       </v-btn>
       <v-dialog
@@ -159,6 +182,13 @@ export default class HelloWorld extends Vue {
       shortName: '',
       longName: '',
     };
+
+    private parts: string[] = [
+      '黎明',
+      '日中',
+      '逢魔が時',
+      '彼は誰時',
+    ];
 
     private performerList: Performer[] = [
       {
