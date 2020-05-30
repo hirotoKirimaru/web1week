@@ -19,7 +19,7 @@
 import Vue from 'vue';
 
 import { Component, Prop } from 'vue-property-decorator';
-import Performer from '@/types/performer';
+import { Performer } from '@/types/performer';
 
 @Component({
   components: {

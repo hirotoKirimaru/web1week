@@ -15,7 +15,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Prop, Component } from 'vue-property-decorator';
-import Performer from '@/types/performer';
+import { Performer } from '@/types/performer';
 
 @Component({
   components: {
