@@ -83,12 +83,6 @@
           <v-card-title class="headline">踊り子を追加しますか？</v-card-title>
 
           <v-text-field
-            v-model="tmpPerformer.id"
-            label="駒のID"
-            required
-          ></v-text-field>
-
-          <v-text-field
             v-model="tmpPerformer.position.x"
             label="駒の位置(x)"
             required
@@ -144,12 +138,6 @@
     </v-row>
     <v-row class="text-center" v-if="selected">
       <v-col xs="12">
-        <v-text-field
-          v-model="tmpPerformer.id"
-          label="駒のID"
-          required
-        ></v-text-field>
-
         <v-text-field
           v-model="tmpPerformer.position.x"
           label="駒の位置(x)"
@@ -226,51 +214,7 @@ export default class HelloWorld extends Vue {
       '彼は誰時',
     ];
 
-    private performerList: Part[] =
-      [{
-        id: 0,
-        name: '',
-        performer: [
-
-          {
-            id: 1,
-            position: {
-              x: 100,
-              y: 100,
-            },
-            shortName: '桐',
-            longName: 'きり丸',
-          },
-          {
-            id: 2,
-            position: {
-              x: 200,
-              y: 100,
-            },
-            shortName: '無',
-            longName: 'ナイナイ',
-          },
-          {
-            id: 3,
-            position: {
-              x: 300,
-              y: 100,
-            },
-            shortName: '水',
-            longName: '水上',
-          },
-          {
-            id: 4,
-            position: {
-              x: 200,
-              y: 50,
-            },
-            shortName: 'ゴ',
-            longName: 'ゴリラ',
-          },
-        ],
-      },
-      ];
+    private performerList: Part[] = [];
 
     mounted() {
       const item: string | null = localStorage.getItem('performerList');
