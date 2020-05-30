@@ -8,7 +8,16 @@
     >
       <v-col xs="12">
         <PerformanceArea
-          :performerList="performerList"
+          :performerList="[
+        {
+          id: 1,
+          position: {
+            x: 100,
+            y: 100,
+          },
+          shortName: '桐',
+          longName: 'きり丸',
+        }]"
         />
       </v-col>
     </v-row>
@@ -27,7 +36,7 @@
       <v-col sm="8">
         <v-slider
           :tick-labels="parts"
-          :value="0"
+          v-model="selectedPart"
           min="0"
           :max="parts.length -1"
           :tick-size="parts.length"
@@ -136,7 +145,16 @@
     <v-row class="text-center">
       <v-col xs="12">
         <PerformerList
-          :performerList="performerList"
+          :performerList="[
+        {
+          id: 1,
+          position: {
+            x: 100,
+            y: 100,
+          },
+          shortName: '桐',
+          longName: 'きり丸',
+        }]"
           @editPerformer="editPerformer"
           @deletePerformer="deletePerformer"
         />
@@ -190,6 +208,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Performer } from '@/types/performer';
+import { Part } from '@/types/part';
 
   @Component({
     components: {
@@ -216,6 +235,8 @@ export default class HelloWorld extends Vue {
 
     private partName = '';
 
+    private selectedPart = 0;
+
     private parts: string[] = [
       '黎明',
       '日中',
@@ -223,44 +244,51 @@ export default class HelloWorld extends Vue {
       '彼は誰時',
     ];
 
-    private performerList: Performer[] = [
-      {
-        id: 1,
-        position: {
-          x: 100,
-          y: 100,
-        },
-        shortName: '桐',
-        longName: 'きり丸',
+    private performerList: Part[] =
+      [{
+        id: 0,
+        name: '',
+        performer: [
+
+          {
+            id: 1,
+            position: {
+              x: 100,
+              y: 100,
+            },
+            shortName: '桐',
+            longName: 'きり丸',
+          },
+          {
+            id: 2,
+            position: {
+              x: 200,
+              y: 100,
+            },
+            shortName: '無',
+            longName: 'ナイナイ',
+          },
+          {
+            id: 3,
+            position: {
+              x: 300,
+              y: 100,
+            },
+            shortName: '水',
+            longName: '水上',
+          },
+          {
+            id: 4,
+            position: {
+              x: 200,
+              y: 50,
+            },
+            shortName: 'ゴ',
+            longName: 'ゴリラ',
+          },
+        ],
       },
-      {
-        id: 2,
-        position: {
-          x: 200,
-          y: 100,
-        },
-        shortName: '無',
-        longName: 'ナイナイ',
-      },
-      {
-        id: 3,
-        position: {
-          x: 300,
-          y: 100,
-        },
-        shortName: '水',
-        longName: '水上',
-      },
-      {
-        id: 4,
-        position: {
-          x: 200,
-          y: 50,
-        },
-        shortName: 'ゴ',
-        longName: 'ゴリラ',
-      },
-    ];
+      ];
 
     mounted() {
       const item: string | null = localStorage.getItem('performerList');
@@ -296,14 +324,33 @@ export default class HelloWorld extends Vue {
       this.dialog = false;
 
       const tmp = { ...this.tmpPerformer };
+      // const findPerformer: Performer[] | undefined =
+      if (this.performerList.length > 0) {
+        console.log('データあり');
+        this.performerList
+          .filter((index) => index.id === this.selectedPart)
+          .flatMap((part) => part.performer)
+          .push(tmp);
+      } else {
+        console.log('データなし');
+        this.performerList = [{
+          id: 0,
+          name: '',
+          performer: [tmp],
+        }];
+      }
 
-      this.performerList.push(tmp);
+      // console.debug(findPerformer);
+
+      console.debug(this.performerList);
+
       localStorage.setItem('performerList', JSON.stringify(this.performerList));
     }
 
     editPerformer(editPerformer: Performer) {
       this.selected = true;
       const findPerformer: Performer | undefined = this.performerList
+        .flatMap((part) => part.performer)
         .find((performer) => performer.id === editPerformer.id, 0);
 
       if (findPerformer === undefined) {
