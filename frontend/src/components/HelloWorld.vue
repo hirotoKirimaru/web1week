@@ -178,7 +178,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Performer } from '@/types/performer';
-import { Part } from '@/types/part';
+import { Part, Performance } from '@/types/part';
+
 
   @Component({
     components: {
@@ -214,24 +215,28 @@ export default class HelloWorld extends Vue {
       '彼は誰時',
     ];
 
-    private performerList: Part[] = [];
+    private performance: Performance = new Performance([]);
+
+    // private performerList: Part[] = [];
 
     mounted() {
       const item: string | null = localStorage.getItem('performerList');
       if (item == null) {
         return;
       }
-      this.performerList = JSON.parse(item);
+      // this.performerList = JSON.parse(item);
+      this.performance = new Performance(JSON.parse(item));
+      console.log(this.performance);
     }
 
     addModalPerformer() {
       this.dialog = true;
-      if (this.performerList.length === 0) {
+      if (this.performance.parts.length === 0) {
         this.tmpPerformer.id = 0;
         return;
       }
 
-      const num = this.performerList.reduce((a, b) => (a.id > b.id ? a : b));
+      const num = this.performance.parts.reduce((a, b) => (a.id > b.id ? a : b));
       this.tmpPerformer.id = num.id + 1;
     }
 
@@ -253,31 +258,27 @@ export default class HelloWorld extends Vue {
       console.debug(tmp);
 
       // const findPerformer: Performer[] | undefined =
-      if (this.performerList.length > 0) {
+      if (this.performance.parts.length > 0) {
         console.log('データあり');
-        const parts: Part[] = this.performerList
+        const parts: Part[] = this.performance.parts
           .filter((index) => index.id === this.selectedPart);
 
         parts[0].performer.push(tmp);
       } else {
         console.log('データなし');
-        this.performerList = [{
+        this.performance.parts = [{
           id: 0,
           name: '',
           performer: [tmp],
         }];
       }
 
-      // console.debug(findPerformer);
-
-      console.debug(this.performerList);
-
-      localStorage.setItem('performerList', JSON.stringify(this.performerList));
+      localStorage.setItem('performerList', JSON.stringify(this.performance));
     }
 
     editPerformer(editPerformer: Performer) {
       this.selected = true;
-      const findPerformer: Performer | undefined = this.performerList
+      const findPerformer: Performer | undefined = this.performance.parts
         .flatMap((part) => part.performer)
         .find((performer) => performer.id === editPerformer.id, 0);
 
@@ -291,25 +292,19 @@ export default class HelloWorld extends Vue {
 
     editCommitPerformer() {
       this.selected = false;
-      localStorage.setItem('performerList', JSON.stringify(this.performerList));
+      localStorage.setItem('performerList', JSON.stringify(this.performance));
     }
 
     deletePerformer(deletePerformer: Performer) {
-      const deleteIndex = this.performerList
+      const deleteIndex = this.performance.parts
         .findIndex((performer) => performer.id === deletePerformer.id, 0);
 
-      this.performerList.splice(deleteIndex, 1);
-      localStorage.setItem('performerList', JSON.stringify(this.performerList));
+      this.performance.parts.splice(deleteIndex, 1);
+      localStorage.setItem('performerList', JSON.stringify(this.performance));
     }
 
     partPerformer() {
-      const parts: Part[] = this.performerList
-        .filter((index) => index.id === this.selectedPart);
-
-      if (parts.length > 0) {
-        return parts[0].performer;
-      }
-      return null;
+      return this.performance.partPosition(this.selectedPart);
     }
 }
 </script>
