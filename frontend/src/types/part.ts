@@ -10,7 +10,6 @@ export class Performance {
 
 
   partPosition(nowPart: number) {
-    console.log({ parts: this.parts });
     if (this.parts.length === 0) {
       return null;
     }

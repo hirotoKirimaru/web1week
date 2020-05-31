@@ -181,7 +181,8 @@ export default class HelloWorld extends Vue {
     mounted() {
       const item: string | null = localStorage.getItem('performerList');
       if (item != null) {
-        // this.performance = new Performance(JSON.parse(item));
+        const performance: Performance = JSON.parse(item);
+        this.performance = new Performance(performance.parts);
       }
 
       const partItem: string | null = localStorage.getItem('parts');
@@ -205,7 +206,7 @@ export default class HelloWorld extends Vue {
       this.dialog = false;
 
       const tmp = { ...this.tmpPerformer };
-      console.debug(tmp);
+      // console.debug(tmp);
 
       // const findPerformer: Performer[] | undefined =
       if (this.performance.parts.length > 0) {
@@ -222,7 +223,6 @@ export default class HelloWorld extends Vue {
           performer: [tmp],
         }];
       }
-
       localStorage.setItem('performerList', JSON.stringify(this.performance));
     }
 
