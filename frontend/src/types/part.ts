@@ -10,6 +10,11 @@ export class Performance {
 
 
   partPosition(nowPart: number) {
+    console.log({ parts: this.parts });
+    if (this.parts.length === 0) {
+      return null;
+    }
+
     const parts: Part[] = this.parts
       .filter((index) => index.id === nowPart);
 
@@ -18,6 +23,10 @@ export class Performance {
     }
     return null;
   }
+
+  // editPart(){
+  //
+  // }
 }
 
 /**

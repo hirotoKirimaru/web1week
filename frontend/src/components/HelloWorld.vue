@@ -13,58 +13,10 @@
       </v-col>
     </v-row>
 
-    <v-row class="ma-1">
-      <v-col sm="4">
-        <v-btn
-          dark
-          color="purple darken-2"
-          @click.stop="addModalPart"
-        >
-          次の隊列の追加
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </v-col>
-      <v-col sm="8">
-        <v-slider
-          :tick-labels="parts"
-          v-model="selectedPart"
-          min="0"
-          :max="parts.length -1"
-          :tick-size="parts.length"
-        >
-        </v-slider>
-      </v-col>
-      <v-dialog
-        v-model="partDialog"
-        max-width="500"
-      >
-        <v-card>
-          <v-card-title class="headline">次の隊列を追加しますか</v-card-title>
-
-          <v-text-field
-            v-model="partName"
-            label="隊列名"
-            required
-          ></v-text-field>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn
-              @click="partDialog = false"
-            >
-              破棄
-            </v-btn>
-
-            <v-btn
-              @click="addPart"
-            >
-              追加
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
+    <Part
+      :parts="parts"
+      :selected="selectedPart"
+    />
 
     <v-row class="ma-1">
       <v-btn
@@ -184,13 +136,12 @@ import { Part, Performance } from '@/types/part';
   @Component({
     components: {
       PerformanceArea: () => import('@/components/PerformanceArea.vue'),
+      Part: () => import('@/components/Part.vue'),
       PerformerList: () => import('@/components/PerformerList.vue'),
     },
   })
 export default class HelloWorld extends Vue {
     private dialog = false;
-
-    private partDialog = false;
 
     private selected = false;
 
@@ -204,29 +155,39 @@ export default class HelloWorld extends Vue {
       longName: '',
     };
 
-    private partName = '';
-
     private selectedPart = 0;
-
-    private parts: string[] = [
-      '黎明',
-      '日中',
-      '逢魔が時',
-      '彼は誰時',
-    ];
 
     private performance: Performance = new Performance([]);
 
-    // private performerList: Part[] = [];
+    private parts: any = [
+      {
+        order: 1,
+        name: '黎明',
+      },
+      {
+        order: 2,
+        name: '日中',
+      },
+      {
+        order: 3,
+        name: '逢魔が時',
+      },
+      {
+        order: 4,
+        name: '彼は誰時',
+      },
+    ];
 
     mounted() {
       const item: string | null = localStorage.getItem('performerList');
-      if (item == null) {
-        return;
+      if (item != null) {
+        // this.performance = new Performance(JSON.parse(item));
       }
-      // this.performerList = JSON.parse(item);
-      this.performance = new Performance(JSON.parse(item));
-      console.log(this.performance);
+
+      const partItem: string | null = localStorage.getItem('parts');
+      if (partItem != null) {
+        this.parts = JSON.parse(partItem);
+      }
     }
 
     addModalPerformer() {
@@ -238,17 +199,6 @@ export default class HelloWorld extends Vue {
 
       const num = this.performance.parts.reduce((a, b) => (a.id > b.id ? a : b));
       this.tmpPerformer.id = num.id + 1;
-    }
-
-    addModalPart() {
-      this.partDialog = true;
-    }
-
-    addPart() {
-      this.partDialog = true;
-      const tmp = this.partName;
-
-      this.parts.push(tmp);
     }
 
     addPerformer() {
