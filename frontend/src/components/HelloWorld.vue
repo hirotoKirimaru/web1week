@@ -16,6 +16,7 @@
     <Part
       :parts="parts"
       :selected="selectedPart"
+      @update="selectPart"
     />
 
     <v-row class="ma-1">
@@ -161,19 +162,19 @@ export default class HelloWorld extends Vue {
 
     private parts: any = [
       {
-        order: 1,
+        order: 0,
         name: '黎明',
       },
       {
-        order: 2,
+        order: 1,
         name: '日中',
       },
       {
-        order: 3,
+        order: 2,
         name: '逢魔が時',
       },
       {
-        order: 4,
+        order: 3,
         name: '彼は誰時',
       },
     ];
@@ -255,6 +256,10 @@ export default class HelloWorld extends Vue {
 
     partPerformer() {
       return this.performance.partPosition(this.selectedPart);
+    }
+
+    selectPart(selected: number) {
+      this.selectedPart = selected;
     }
 }
 </script>

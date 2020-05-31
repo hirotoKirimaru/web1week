@@ -13,7 +13,7 @@
     <v-col sm="8">
       <v-slider
         :tick-labels="this.parts.map((part) => part.name)"
-        v-model="selectedPart"
+        v-model="localSelectedPart"
         min="0"
         :max="parts.length -1"
         :tick-size="parts.length"
@@ -88,7 +88,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
 
   @Component
 export default class PartView extends Vue {
@@ -97,6 +99,8 @@ export default class PartView extends Vue {
 
     @Prop({ default: 0 })
     private selectedPart: number;
+
+    private localSelectedPart = 0;
 
     private dialog = false;
 
@@ -110,7 +114,13 @@ export default class PartView extends Vue {
     ];
 
     mounted() {
+      this.localSelectedPart = this.selectedPart;
       this.$nextTick();
+    }
+
+    @Watch('localSelectedPart')
+    onTextChanged(newText: number, oldText: string) {
+      this.$emit('update', this.localSelectedPart);
     }
 
     registerItem() {
