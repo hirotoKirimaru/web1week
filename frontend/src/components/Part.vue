@@ -124,12 +124,18 @@ export default class PartView extends Vue {
     }
 
     registerItem() {
-      const num =
-        this.parts.map((a: any) => a.order)
-        .reduce((a: any, b: any) => (a > b ? a : b));
+      let num;
+      if (this.parts.length > 0){
+        num =
+          this.parts.map((a: any) => a.order)
+            .reduce((a: any, b: any) => (a > b ? a : b));
+        num += 1;
+      } else {
+        num = 0;
+      }
 
       const part = {
-        order: num + 1,
+        order: num,
         name: '',
       };
 
