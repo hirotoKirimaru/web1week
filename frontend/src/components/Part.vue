@@ -124,9 +124,12 @@ export default class PartView extends Vue {
     }
 
     registerItem() {
-      const num = this.parts.reduce((a: any, b: any) => (a.order > b.order ? a : b));
+      const num =
+        this.parts.map((a: any) => a.order)
+        .reduce((a: any, b: any) => (a > b ? a : b));
+
       const part = {
-        order: num,
+        order: num + 1,
         name: '',
       };
 
@@ -136,6 +139,7 @@ export default class PartView extends Vue {
     update() {
       this.dialog = false;
       localStorage.setItem('parts', JSON.stringify(this.parts));
+      this.$emit('updatePart');
     }
 
     deleteItem(item: any) {
