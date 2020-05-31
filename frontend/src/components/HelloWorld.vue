@@ -17,6 +17,7 @@
       :parts="parts"
       :selected="selectedPart"
       @update="selectPart"
+      @updatePart="updatePart"
     />
 
     <v-row class="ma-1">
@@ -260,6 +261,60 @@ export default class HelloWorld extends Vue {
 
     selectPart(selected: number) {
       this.selectedPart = selected;
+    }
+
+    /**
+     * 隊列を追加した時のメソッド。
+     * 二つの挙動を行うことを目的とする。
+     * 1. 隊列を削除した時、対応する隊列を削除する。
+     * 2. 隊列を追加した時、一つ前の隊列をコピーする。
+     */
+    updatePart() {
+      const delta = this.performance.parts
+        .filter((part) => this.parts
+          .map((order: any) => order.order)
+          .indexOf(part.id) === -1);
+
+      console.log(delta);
+
+      // 動作未確認
+      delta.forEach(
+        (deleteOrder: any) => {
+          const deleteIndex = this.performance.parts
+            .findIndex((performer) => performer.id === deleteOrder, 0);
+          this.performance.parts.splice(deleteIndex, 1);
+        },
+      );
+
+      const delta2 = this.parts
+        .filter((part: any) => this.performance.parts
+          .map((order: any) => order.id)
+          .indexOf(part.order) === -1);
+
+      console.log(delta2);
+
+      delta2.forEach(
+        (addOrder: any) => {
+          const addIndex = this.performance.parts
+            .findIndex((performer) => performer.id === (addOrder.order - 1), 0);
+
+          const add: any = [];
+          const copyTarget: Performer[] = this.performance.parts.filter((p) => p.id === addIndex)
+            .flatMap((part) => part.performer);
+
+          Object.assign(add, copyTarget);
+
+          const tmpAdd = {
+            id: addOrder.order,
+            name: addOrder.name,
+            performer: add
+          }
+
+          this.performance.parts.push(tmpAdd);
+        },
+      );
+
+      localStorage.setItem('performerList', JSON.stringify(this.performance));
     }
 }
 </script>
