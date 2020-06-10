@@ -14,6 +14,7 @@
         height:dotSize + 'px',
         left:localPerformer.position.x + 'px',
         top:localPerformer.position.y + 'px',
+        transform:`translateX(${initialPosition.x}px) translateY(${initialPosition.y}px)`,
         }
     "
   >
@@ -55,17 +56,13 @@ export default class Performer extends Vue {
 
     onMouseMove(e: MouseEvent) {
       console.log('move');
+      console.log({ x: e.pageX, y: e.pageY });
 
-      const delta = {
-        x: e.pageX - this.initialPosition.x,
-        y: e.pageY - this.initialPosition.y,
+      this.initialPosition = {
+        x: e.pageX,
+        y: e.pageY - (this.dotSize * 2),
       };
-      console.log(delta);
 
-      this.localPerformer.position = {
-        x: this.initialPosition.x + delta.x,
-        y: this.initialPosition.y + delta.y,
-      };
       console.log(this.localPerformer.position);
     }
 
@@ -75,8 +72,8 @@ export default class Performer extends Vue {
       console.log({ boundingRect });
 
       this.initialPosition = {
-        x: boundingRect.left - this.dotSize,
-        y: boundingRect.top - this.dotSize,
+        x: boundingRect.left,
+        y: boundingRect.top - (this.dotSize * 2),
       };
 
       console.log({ initial: this.initialPosition });
@@ -88,6 +85,11 @@ export default class Performer extends Vue {
     handleMouseUp() {
       window.removeEventListener('mousemove', this.onMouseMove);
       window.removeEventListener('mouseup', this.handleMouseUp);
+
+      this.localPerformer.position = {
+        x: this.initialPosition.x,
+        y: this.initialPosition.y,
+      };
     }
 }
 </script>
