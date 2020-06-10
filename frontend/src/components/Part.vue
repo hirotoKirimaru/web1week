@@ -98,7 +98,7 @@ export default class PartView extends Vue {
     private parts: any;
 
     @Prop({ default: 0 })
-    private selectedPart: number = 0;
+    private selectedPart = 0;
 
     private localSelectedPart = 0;
 
