@@ -307,8 +307,8 @@ export default class HelloWorld extends Vue {
           const tmpAdd = {
             id: addOrder.order,
             name: addOrder.name,
-            performer: add
-          }
+            performer: add,
+          };
 
           this.performance.parts.push(tmpAdd);
         },
